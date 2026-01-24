@@ -6,6 +6,8 @@ import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import ResumeTimeline from "./components/ResumeTimeline";
+import CallToAction from "./components/CallToAction";
 
 export default function App() {
   return (
@@ -13,9 +15,11 @@ export default function App() {
       <Navbar />
       <Hero />
       <About />
-      <Skills />
+      <ResumeTimeline />
       <Experience />
+      <Skills />
       <Projects />
+      <CallToAction />
       <Contact />
       <Footer />
     </div>
