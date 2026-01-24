@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
+import profile from "../assets/profile.jpg";
 
 export default function About() {
   return (
     <section id="about" className="py-24 bg-slate-800">
       <div className="max-w-6xl mx-auto px-6">
-
         {/* Section Title */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -17,7 +17,6 @@ export default function About() {
 
         {/* Top Layout: Image + Content */}
         <div className="grid md:grid-cols-3 gap-10 items-center">
-
           {/* Profile / Avatar */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -25,9 +24,11 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="flex justify-center"
           >
-            <div className="w-48 h-48 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center text-5xl font-bold text-slate-900">
-              VG
-            </div>
+            <img
+              src={profile}
+              alt="Vaishnav Ghadge"
+              className="w-48 h-48 rounded-full object-cover border-4 border-blue-500 shadow-lg"
+            />
           </motion.div>
 
           {/* Main About Text */}
@@ -108,14 +109,18 @@ export default function About() {
 
           <div className="grid md:grid-cols-3 gap-6 text-gray-300">
             <div className="bg-slate-800 p-6 rounded-xl">
-              🌱 <span className="font-semibold text-white">Problem Thinker</span>
+              🌱{" "}
+              <span className="font-semibold text-white">Problem Thinker</span>
               <p className="mt-2 text-sm">
                 I focus on understanding real problems before writing code.
               </p>
             </div>
 
             <div className="bg-slate-800 p-6 rounded-xl">
-              ⚙️ <span className="font-semibold text-white">Strong Backend Base</span>
+              ⚙️{" "}
+              <span className="font-semibold text-white">
+                Strong Backend Base
+              </span>
               <p className="mt-2 text-sm">
                 Solid foundation in Java, databases, and API logic.
               </p>
@@ -129,7 +134,6 @@ export default function About() {
             </div>
           </div>
         </motion.div>
-
       </div>
     </section>
   );
