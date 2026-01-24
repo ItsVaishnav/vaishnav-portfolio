@@ -19,7 +19,7 @@ const skills = [
 
 export default function Skills() {
   return (
-    <section className="py-20 bg-slate-800">
+    <section id="skills" className="py-20 bg-slate-800">
       <h2 className="text-3xl font-bold text-center mb-12">Skills</h2>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto px-6">
