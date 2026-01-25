@@ -8,6 +8,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ResumeTimeline from "./components/ResumeTimeline";
 import CallToAction from "./components/CallToAction";
+import GitHubRepos from "./components/GitHubRepos";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
       <Experience />
       <Skills />
       <Projects />
+      <GitHubRepos /> 
       <CallToAction />
       <Contact />
       <Footer />
