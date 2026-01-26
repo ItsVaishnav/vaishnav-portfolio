@@ -7,51 +7,65 @@ const sections = ["about", "skills", "projects", "contact"];
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("about");
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
   const [progress, setProgress] = useState(0);
 
-  /* 🔹 Active section observer */
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActive(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
-
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  /* 🔹 Scroll progress */
+  /* ✅ FIXED: Active section detection */
   useEffect(() => {
     const handleScroll = () => {
-      const scrolled =
-        window.scrollY /
-        (document.body.scrollHeight - window.innerHeight);
-      setProgress(scrolled * 100);
+      const scrollPos = window.scrollY + 120; // navbar offset
+
+      for (let id of sections) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+
+        const top = el.offsetTop;
+        const height = el.offsetHeight;
+
+        if (scrollPos >= top && scrollPos < top + height) {
+          setActive(id);
+          break;
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // run once on load
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* 🔹 Dark / Light toggle */
+  /* ✅ Scroll progress bar */
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
+    const onScroll = () => {
+      const total =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+      setProgress((window.scrollY / total) * 100);
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* ✅ FIXED: Dark / Light mode (persistent) */
+  useEffect(() => {
+    const root = document.documentElement;
+
+    if (dark) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
   }, [dark]);
 
   return (
     <>
-      {/* Scroll Progress Bar */}
+      {/* Progress Bar */}
       <div
         className="fixed top-0 left-0 h-[3px] bg-blue-500 z-[60]"
         style={{ width: `${progress}%` }}
@@ -60,7 +74,7 @@ export default function Navbar() {
       <motion.nav
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.4 }}
         className="fixed top-0 w-full bg-white/80 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800 z-50"
       >
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -100,15 +114,14 @@ export default function Navbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            {/* Dark mode toggle */}
             <button
               onClick={() => setDark(!dark)}
               className="text-xl text-slate-700 dark:text-gray-300"
+              aria-label="Toggle theme"
             >
               {dark ? <FiSun /> : <FiMoon />}
             </button>
 
-            {/* Mobile menu */}
             <button
               onClick={() => setOpen(!open)}
               className="md:hidden text-2xl text-slate-700 dark:text-gray-300"

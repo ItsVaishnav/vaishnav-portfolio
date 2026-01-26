@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-24 bg-slate-900">
+    <section id="experience" className="py-24 bg-slate-100 dark:bg-slate-800">
       <div className="max-w-5xl mx-auto px-6">
 
         <motion.h2

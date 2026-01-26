@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function ResumeTimeline() {
   return (
-    <section className="py-24 bg-slate-800">
+    <section className="py-24 bg-slate-100 dark:bg-slate-800">
       <div className="max-w-5xl mx-auto px-6">
 
         <motion.h2

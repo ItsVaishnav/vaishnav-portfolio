@@ -12,7 +12,7 @@ import GitHubRepos from "./components/GitHubRepos";
 
 export default function App() {
   return (
-    <div className="bg-slate-900 text-white">
+    <div className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white transition-colors duration-300">
       <Navbar />
       <Hero />
       <About />

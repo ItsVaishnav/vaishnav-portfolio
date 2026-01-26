@@ -62,7 +62,7 @@ export default function Projects() {
     repos.find((r) => r.name.toLowerCase().includes(key));
 
   return (
-    <section id="projects" className="py-24 bg-slate-900">
+    <section id="projects" className="py-24 bg-slate-100 dark:bg-slate-800">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Title */}

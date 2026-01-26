@@ -80,7 +80,7 @@ const cardVariants = {
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 bg-slate-800">
+    <section id="skills" className="py-24 bg-slate-100 dark:bg-slate-800">
       <div className="max-w-6xl mx-auto px-6">
 
         <motion.h2
