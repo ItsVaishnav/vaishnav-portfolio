@@ -2,33 +2,32 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 
-/**
- * Featured projects based on your RESUME
- * Repo names should match (or partially match) your GitHub repo names
- */
+/* Featured projects (resume-aligned) */
 const featured = [
   {
     key: "time",
     title: "Time Table Scheduler",
-    subtitle: "Zeal Institute",
+    subtitle: "Academic Scheduling System",
     description:
-      "Web-based scheduler that reduces faculty and lecture conflicts using collision-free logic.",
+      "A web-based timetable scheduler that minimizes faculty and lecture conflicts using collision-free allocation logic.",
     tech: ["HTML", "CSS", "JavaScript", "Bootstrap", "JSP", "Oracle"],
     role: "Lead Developer",
   },
   {
     key: "homies",
     title: "Homies – Rental Platform",
+    subtitle: "Property & Tenant Platform",
     description:
-      "Platform enabling direct communication between flat owners and tenants, reducing broker dependency.",
+      "A rental platform enabling direct communication between flat owners and tenants, reducing broker dependency.",
     tech: ["HTML", "CSS", "Bootstrap", "JavaScript", "PHP", "MySQL"],
     role: "Full Stack Developer",
   },
   {
     key: "idiscuss",
     title: "iDiscuss – Tech Q&A Forum",
+    subtitle: "Developer Community Platform",
     description:
-      "Community forum for developers to ask and resolve technical queries collaboratively.",
+      "A discussion forum where developers can ask questions and collaboratively solve technical problems.",
     tech: ["HTML", "CSS", "Bootstrap", "JavaScript", "PHP", "MySQL"],
     role: "Full Stack Developer",
   },
@@ -40,8 +39,12 @@ const container = {
 };
 
 const card = {
-  hidden: { opacity: 0, y: 25 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
 };
 
 export default function Projects() {
@@ -62,81 +65,98 @@ export default function Projects() {
     repos.find((r) => r.name.toLowerCase().includes(key));
 
   return (
-    <section id="projects" className="py-24 bg-slate-100 dark:bg-slate-800">
+    <section
+      id="projects"
+      className="py-28 bg-slate-100 dark:bg-slate-800 transition-colors duration-300"
+    >
       <div className="max-w-6xl mx-auto px-6">
 
-        {/* Title */}
+        {/* Heading */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl font-bold text-center mb-6"
+          className="text-3xl font-bold text-center mb-6 text-slate-900 dark:text-white"
         >
-          Projects
+          Featured Projects
         </motion.h2>
 
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-center text-gray-400 mb-16 max-w-2xl mx-auto"
+          className="text-center text-slate-600 dark:text-gray-400 mb-20 max-w-2xl mx-auto"
         >
-          A selection of academic and live projects focused on solving real-world problems.
+          A curated selection of academic and live projects demonstrating my
+          ability to build practical, scalable software solutions.
         </motion.p>
 
-        {/* Featured Projects */}
+        {/* Project Cards */}
         <motion.div
           variants={container}
           initial="hidden"
           whileInView="visible"
-          className="grid md:grid-cols-3 gap-8"
+          className="grid md:grid-cols-3 gap-10"
         >
           {featured.map((proj, i) => {
             const repo = findRepo(proj.key);
+
             return (
               <motion.div
                 key={i}
                 variants={card}
                 whileHover={{ y: -6 }}
-                className="bg-slate-800 rounded-2xl p-6 shadow-lg flex flex-col"
+                className="bg-white dark:bg-slate-900
+                           border border-slate-200 dark:border-slate-800
+                           rounded-3xl p-7 shadow-lg
+                           flex flex-col transition-all"
               >
-                <h3 className="text-xl font-semibold mb-1">{proj.title}</h3>
-                {proj.subtitle && (
-                  <p className="text-sm text-gray-400 mb-3">
-                    {proj.subtitle}
-                  </p>
-                )}
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-1">
+                  {proj.title}
+                </h3>
 
-                <p className="text-gray-300 text-sm mb-4">
+                <p className="text-sm text-blue-500 mb-3">
+                  {proj.subtitle}
+                </p>
+
+                <p className="text-sm text-slate-600 dark:text-gray-300 mb-4 leading-relaxed">
                   {proj.description}
                 </p>
 
-                <p className="text-xs text-gray-400 mb-3">
-                  <span className="text-gray-200 font-medium">Role:</span>{" "}
+                <p className="text-xs text-slate-500 dark:text-gray-400 mb-4">
+                  <span className="font-medium text-slate-700 dark:text-gray-200">
+                    Role:
+                  </span>{" "}
                   {proj.role}
                 </p>
 
-                {/* Tech badges */}
-                <div className="flex flex-wrap gap-2 mb-5">
+                {/* Tech Stack */}
+                <div className="flex flex-wrap gap-2 mb-6">
                   {proj.tech.map((t, idx) => (
                     <span
                       key={idx}
-                      className="text-xs bg-slate-700 text-gray-200 px-2 py-1 rounded"
+                      className="text-xs px-2.5 py-1 rounded-full
+                                 bg-slate-100 dark:bg-slate-800
+                                 text-slate-600 dark:text-gray-300"
                     >
                       {t}
                     </span>
                   ))}
                 </div>
 
-                {/* Actions */}
+                {/* GitHub Link */}
                 {repo && (
                   <a
                     href={repo.html_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-auto inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition"
+                    className="mt-auto inline-flex items-center gap-2
+                               text-sm text-blue-600 dark:text-blue-400
+                               hover:underline"
                   >
-                    <FaGithub /> View Code
+                    <FaGithub />
+                    View Source Code
                   </a>
                 )}
               </motion.div>
@@ -144,19 +164,21 @@ export default function Projects() {
           })}
         </motion.div>
 
-        {/* More on GitHub */}
-        <div className="text-center mt-16">
+        {/* GitHub CTA */}
+        <div className="text-center mt-20">
           <a
             href="https://github.com/ItsVaishnav"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition"
+            className="inline-flex items-center gap-2
+                       text-slate-700 dark:text-gray-300
+                       hover:text-blue-600 dark:hover:text-blue-400
+                       transition text-sm font-medium"
           >
-            <FaGithub className="text-xl" />
-            View more projects on GitHub
+            <FaGithub className="text-lg" />
+            Explore more projects on GitHub
           </a>
         </div>
-
       </div>
     </section>
   );
