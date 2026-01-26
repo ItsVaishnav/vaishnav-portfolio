@@ -3,7 +3,7 @@ import profile from "../assets/profile.jpg";
 
 export default function About() {
   return (
-    <section id="about" className="py-24 bg-slate-800">
+    <section id="about" className="py-24 bg-slate-100 dark:bg-slate-800">
       <div className="max-w-6xl mx-auto px-6">
         {/* Section Title */}
         <motion.h2
