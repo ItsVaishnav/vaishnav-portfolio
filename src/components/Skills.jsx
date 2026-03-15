@@ -1,171 +1,109 @@
 import { motion } from "framer-motion";
-import {
-  FaJava,
-  FaReact,
-  FaAndroid,
-  FaDatabase,
-  FaGitAlt,
-  FaServer,
-  FaNodeJs,
-  FaPhp,
-  FaHtml5,
-  FaCss3Alt,
+import { 
+  FaJava, FaReact, FaAndroid, FaDatabase, FaGitAlt, 
+  FaServer, FaNodeJs, FaPhp, FaHtml5, FaCss3Alt 
 } from "react-icons/fa";
-import {
-  SiJavascript,
-  SiPostman,
-  SiMongodb,
-  SiMysql,
-  SiOracle,
+import { 
+  SiJavascript, SiPostman, SiMongodb, SiMysql, 
+  SiOracle, SiSpringboot, SiExpress, SiTailwindcss 
 } from "react-icons/si";
 
-/* Skill Groups */
 const skillGroups = [
   {
-    title: "Languages & Core",
+    title: "Core & Languages",
+    description: "The foundation of my development logic.",
     skills: [
-      { name: "Java", icon: <FaJava /> },
-      { name: "JavaScript", icon: <SiJavascript /> },
-      { name: "SQL", icon: <FaDatabase /> },
+      { name: "Java", icon: <FaJava />, color: "text-red-500" },
+      { name: "JavaScript", icon: <SiJavascript />, color: "text-yellow-400" },
+      { name: "SQL", icon: <FaDatabase />, color: "text-blue-400" },
     ],
   },
   {
-    title: "Frontend",
+    title: "Frontend & Mobile",
+    description: "Building intuitive user interfaces.",
     skills: [
-      { name: "HTML", icon: <FaHtml5 /> },
-      { name: "CSS", icon: <FaCss3Alt /> },
-      { name: "Bootstrap", icon: <FaCss3Alt /> },
-      { name: "React.js", icon: <FaReact /> },
-      { name: "Android", icon: <FaAndroid /> },
+      { name: "Android", icon: <FaAndroid />, color: "text-green-500" },
+      { name: "React.js", icon: <FaReact />, color: "text-cyan-400" },
+      { name: "Tailwind", icon: <SiTailwindcss />, color: "text-sky-400" },
+      { name: "HTML5/CSS3", icon: <FaHtml5 />, color: "text-orange-500" },
     ],
   },
   {
-    title: "Backend",
+    title: "Backend & Servers",
+    description: "Architecting scalable server-side systems.",
     skills: [
-      { name: "Node.js", icon: <FaNodeJs /> },
-      { name: "Express.js", icon: <FaServer /> },
-      { name: "Spring Boot", icon: <FaServer /> },
-      { name: "JSP", icon: <FaServer /> },
-      { name: "PHP", icon: <FaPhp /> },
+      { name: "Spring Boot", icon: <SiSpringboot />, color: "text-green-600" },
+      { name: "Node.js", icon: <FaNodeJs />, color: "text-emerald-500" },
+      { name: "Express", icon: <SiExpress />, color: "text-slate-400" },
+      { name: "PHP", icon: <FaPhp />, color: "text-indigo-400" },
     ],
   },
   {
-    title: "Databases",
+    title: "Data & DevOps",
+    description: "Database management and cloud tools.",
     skills: [
-      { name: "MySQL", icon: <SiMysql /> },
-      { name: "MongoDB", icon: <SiMongodb /> },
-      { name: "Oracle", icon: <SiOracle /> },
-    ],
-  },
-  {
-    title: "Tools",
-    skills: [
-      { name: "Git", icon: <FaGitAlt /> },
-      { name: "GitHub", icon: <FaGitAlt /> },
-      { name: "Postman", icon: <SiPostman /> },
+      { name: "MySQL", icon: <SiMysql />, color: "text-blue-500" },
+      { name: "MongoDB", icon: <SiMongodb />, color: "text-green-500" },
+      { name: "Git", icon: <FaGitAlt />, color: "text-orange-600" },
+      { name: "Postman", icon: <SiPostman />, color: "text-orange-500" },
     ],
   },
 ];
 
-/* Animations */
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
-
 export default function Skills() {
   return (
-    <section
-      id="skills"
-      className="py-28 bg-slate-100 dark:bg-slate-800 transition-colors duration-300"
-    >
+    <section id="skills" className="py-24 bg-white dark:bg-[#050505] transition-colors duration-500 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6">
+        
+        {/* Section Header */}
+        <div className="text-center mb-20">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white"
+          >
+            Technical <span className="text-blue-600">Expertise</span>
+          </motion.h2>
+          <div className="h-1.5 w-16 bg-blue-600 mx-auto mt-4 rounded-full" />
+        </div>
 
-        {/* Title */}
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl font-bold text-center mb-6 text-slate-900 dark:text-white"
-        >
-          Technical Skills
-        </motion.h2>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-center text-slate-600 dark:text-gray-400 mb-20 max-w-2xl mx-auto"
-        >
-          A snapshot of the technologies and tools I actively use to design,
-          build, and deploy real-world applications.
-        </motion.p>
-
-        {/* Skill Groups */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          className="grid md:grid-cols-2 gap-12"
-        >
+        {/* Skill Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {skillGroups.map((group, idx) => (
             <motion.div
               key={idx}
-              variants={cardVariants}
-              className="relative bg-white/70 dark:bg-slate-900/80
-                         backdrop-blur rounded-3xl p-8 shadow-xl
-                         border border-slate-200 dark:border-slate-800"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              viewport={{ once: true }}
+              className="p-8 rounded-[2.5rem] bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-slate-800 hover:border-blue-500/30 transition-all duration-300 group"
             >
-              {/* Group title */}
-              <h3 className="text-xl font-semibold mb-8 text-blue-500">
-                {group.title}
-              </h3>
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">
+                  {group.title}
+                </h3>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">
+                  {group.description}
+                </p>
+              </div>
 
-              {/* Skills */}
-              <div className="grid grid-cols-2 gap-6">
+              <div className="flex flex-wrap gap-4">
                 {group.skills.map((skill, i) => (
                   <motion.div
                     key={i}
-                    whileHover={{
-                      y: -6,
-                      boxShadow: "0 12px 30px rgba(59,130,246,0.25)",
-                    }}
-                    className="group bg-slate-100 dark:bg-slate-800
-                               rounded-2xl p-5 flex flex-col
-                               items-center justify-center gap-3
-                               transition-all"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all"
                   >
-                    <div
-                      className="text-4xl text-blue-500
-                                 group-hover:scale-110
-                                 transition-transform"
-                    >
-                      {skill.icon}
-                    </div>
-                    <p className="text-sm font-medium text-slate-700 dark:text-gray-200">
+                    <span className={`text-2xl ${skill.color}`}>{skill.icon}</span>
+                    <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
                       {skill.name}
-                    </p>
+                    </span>
                   </motion.div>
                 ))}
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
+        </div>
       </div>
     </section>
   );
