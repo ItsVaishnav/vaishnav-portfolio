@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 
 const sections = ["about", "skills", "projects", "contact"];
@@ -7,53 +7,13 @@ const sections = ["about", "skills", "projects", "contact"];
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("about");
-  const [dark, setDark] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [dark, setDark] = useState(localStorage.getItem("theme") === "dark");
   const [progress, setProgress] = useState(0);
 
-  /* ✅ FIXED: Active section detection */
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 120; // navbar offset
-
-      for (let id of sections) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-
-        const top = el.offsetTop;
-        const height = el.offsetHeight;
-
-        if (scrollPos >= top && scrollPos < top + height) {
-          setActive(id);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // run once on load
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  /* ✅ Scroll progress bar */
-  useEffect(() => {
-    const onScroll = () => {
-      const total =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
-      setProgress((window.scrollY / total) * 100);
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  /* ✅ FIXED: Dark / Light mode (persistent) */
+  // 1. Theme Logic
   useEffect(() => {
     const root = document.documentElement;
-
     if (dark) {
       root.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -63,101 +23,134 @@ export default function Navbar() {
     }
   }, [dark]);
 
+  // 2. Scroll Logic (Combined for Performance)
+  useEffect(() => {
+    const handleScroll = () => {
+      // Update Scrolled State for Navbar styling
+      setIsScrolled(window.scrollY > 20);
+
+      // Update Progress Bar
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress((window.scrollY / total) * 100);
+
+      // Active Section Detection
+      const scrollPos = window.scrollY + 150;
+      for (let id of sections) {
+        const el = document.getElementById(id);
+        if (el && scrollPos >= el.offsetTop && scrollPos < el.offsetTop + el.offsetHeight) {
+          setActive(id);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
-      {/* Progress Bar */}
-      <div
-        className="fixed top-0 left-0 h-[3px] bg-blue-500 z-[60]"
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-blue-500 to-cyan-400 z-[70]"
         style={{ width: `${progress}%` }}
       />
 
       <motion.nav
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="fixed top-0 w-full bg-white/80 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800 z-50"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          isScrolled 
+            ? "py-3 bg-white/70 dark:bg-black/70 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800" 
+            : "py-5 bg-transparent"
+        }`}
       >
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-
-          {/* Brand */}
-          <a
+        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
+          
+          {/* Brand Logo */}
+          <motion.a
             href="#"
-            className="text-xl font-extrabold text-slate-900 dark:text-white"
+            whileHover={{ scale: 1.05 }}
+            className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white"
           >
-            Vaishnav<span className="text-blue-500">.</span>
-          </a>
+            V<span className="text-blue-500 text-3xl">.</span>GHADGE
+          </motion.a>
 
-          {/* Desktop Nav */}
-          <ul className="hidden md:flex gap-8 text-slate-600 dark:text-gray-300">
+          {/* Desktop Links */}
+          <ul className="hidden md:flex items-center gap-10">
             {sections.map((id) => (
-              <li key={id} className="relative">
+              <li key={id} className="relative group">
                 <a
                   href={`#${id}`}
-                  className={`capitalize transition ${
+                  className={`text-sm font-medium uppercase tracking-widest transition-colors ${
                     active === id
-                      ? "text-blue-500 font-semibold"
-                      : "hover:text-black dark:hover:text-white"
+                      ? "text-blue-500"
+                      : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
                   {id}
                 </a>
-
                 {active === id && (
-                  <motion.span
-                    layoutId="underline"
-                    className="absolute left-0 -bottom-1 h-[2px] w-full bg-blue-500"
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute -bottom-2 left-0 right-0 h-[2px] bg-blue-500 rounded-full"
                   />
                 )}
               </li>
             ))}
           </ul>
 
-          {/* Actions */}
-          <div className="flex items-center gap-4">
-            <button
+          {/* Action Buttons */}
+          <div className="flex items-center gap-3">
+            <motion.button
+              whileTap={{ rotate: 45, scale: 0.9 }}
               onClick={() => setDark(!dark)}
-              className="text-xl text-slate-700 dark:text-gray-300"
+              className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-yellow-400 transition-colors"
               aria-label="Toggle theme"
             >
               {dark ? <FiSun /> : <FiMoon />}
-            </button>
+            </motion.button>
 
             <button
               onClick={() => setOpen(!open)}
-              className="md:hidden text-2xl text-slate-700 dark:text-gray-300"
+              className="md:hidden p-2 text-2xl text-slate-700 dark:text-slate-200"
             >
               {open ? <FiX /> : <FiMenu />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {open && (
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: "auto" }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800"
-          >
-            <ul className="flex flex-col gap-6 px-6 py-6">
-              {sections.map((id) => (
-                <li key={id}>
-                  <a
-                    href={`#${id}`}
-                    onClick={() => setOpen(false)}
-                    className={`capitalize ${
-                      active === id
-                        ? "text-blue-500 font-semibold"
-                        : "text-slate-700 dark:text-gray-300"
-                    }`}
+        {/* Mobile Menu (AnimatePresence makes it smooth) */}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-full left-0 w-full bg-white dark:bg-[#0a0a0a] border-b border-slate-200 dark:border-slate-800 shadow-xl md:hidden"
+            >
+              <ul className="flex flex-col p-6 gap-4">
+                {sections.map((id) => (
+                  <motion.li 
+                    whileTap={{ scale: 0.95 }}
+                    key={id}
                   >
-                    {id}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
+                    <a
+                      href={`#${id}`}
+                      onClick={() => setOpen(false)}
+                      className={`block py-3 text-lg capitalize ${
+                        active === id
+                          ? "text-blue-500 font-bold"
+                          : "text-slate-600 dark:text-slate-400"
+                      }`}
+                    >
+                      {id}
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
     </>
   );
