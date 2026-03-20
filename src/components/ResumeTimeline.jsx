@@ -5,14 +5,14 @@ export default function ResumeTimeline() {
   const education = [
     {
       degree: "Master of Computer Applications (MCA)",
-      institution: "Zeal College of Engineering & Research, Pune",
+      institution: "Savitribai Phule Pune University",
       duration: "2024 — 2026",
       details: "Focusing on Mobile App Development, Cloud Computing, and Enterprise Java.",
       status: "Currently Pursuing"
     },
     {
-      degree: "Bachelor of Computer Science (BCS)",
-      institution: "Savitribai Phule Pune University",
+      degree: "Bachelor of Computer Application (BCA)",
+      institution: "Shivaji University",
       duration: "2021 — 2024",
       details: "Foundation in Data Structures, Algorithms, and Web Technologies.",
       status: "Completed"
