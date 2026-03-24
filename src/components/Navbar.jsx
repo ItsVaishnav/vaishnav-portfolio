@@ -11,7 +11,6 @@ export default function Navbar() {
   const [dark, setDark] = useState(localStorage.getItem("theme") === "dark");
   const [progress, setProgress] = useState(0);
 
-  // 1. Theme Logic
   useEffect(() => {
     const root = document.documentElement;
     if (dark) {
@@ -23,17 +22,12 @@ export default function Navbar() {
     }
   }, [dark]);
 
-  // 2. Scroll Logic (Combined for Performance)
   useEffect(() => {
     const handleScroll = () => {
-      // Update Scrolled State for Navbar styling
       setIsScrolled(window.scrollY > 20);
-
-      // Update Progress Bar
       const total = document.documentElement.scrollHeight - window.innerHeight;
       setProgress((window.scrollY / total) * 100);
 
-      // Active Section Detection
       const scrollPos = window.scrollY + 150;
       for (let id of sections) {
         const el = document.getElementById(id);
@@ -60,19 +54,27 @@ export default function Navbar() {
         animate={{ y: 0 }}
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           isScrolled 
-            ? "py-3 bg-white/70 dark:bg-black/70 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800" 
-            : "py-5 bg-transparent"
+            ? "py-2 bg-white/70 dark:bg-black/70 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800" 
+            : "py-4 bg-transparent"
         }`}
       >
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
           
-          {/* Brand Logo */}
+          {/* UPDATED: Brand Logo with Image */}
           <motion.a
             href="#"
             whileHover={{ scale: 1.05 }}
-            className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white"
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 no-underline"
           >
-            V<span className="text-blue-500 text-3xl">.</span>GHADGE
+            <img 
+              src="/logo.png" // Ensure you save the logo as logo.png in your 'public' folder
+              alt="Vaishnav Logo" 
+              className="h-10 w-auto object-contain" 
+            />
+            <span className="hidden sm:block text-xl font-black tracking-tighter text-slate-900 dark:text-white uppercase">
+              Vaishnav
+            </span>
           </motion.a>
 
           {/* Desktop Links */}
@@ -119,7 +121,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu (AnimatePresence makes it smooth) */}
+        {/* Mobile Menu */}
         <AnimatePresence>
           {open && (
             <motion.div

@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { 
   FaJava, FaReact, FaAndroid, FaDatabase, FaGitAlt, 
-  FaServer, FaNodeJs, FaPhp, FaHtml5, FaCss3Alt 
+  FaNodeJs, FaPhp, FaHtml5, FaCss3Alt, FaAws 
 } from "react-icons/fa";
 import { 
   SiJavascript, SiPostman, SiMongodb, SiMysql, 
-  SiOracle, SiSpringboot, SiExpress, SiTailwindcss 
+  SiSpringboot, SiExpress, SiTailwindcss 
 } from "react-icons/si";
+
+// REMOVED: The problematic imports that were causing the SyntaxError
 
 const skillGroups = [
   {
@@ -39,13 +41,15 @@ const skillGroups = [
     ],
   },
   {
-    title: "Data & DevOps",
-    description: "Database management and cloud tools.",
+    title: "Cloud & Infrastructure",
+    description: "Modern deployment and cloud management.",
     skills: [
-      { name: "MySQL", icon: <SiMysql />, color: "text-blue-500" },
-      { name: "MongoDB", icon: <SiMongodb />, color: "text-green-500" },
+      // Swapped to FaAws to ensure the code compiles regardless of library version
+      { name: "AWS Amplify", icon: <FaAws />, color: "text-orange-400" },
+      { name: "AWS App Runner", icon: <FaAws />, color: "text-orange-500" },
       { name: "Git", icon: <FaGitAlt />, color: "text-orange-600" },
       { name: "Postman", icon: <SiPostman />, color: "text-orange-500" },
+      { name: "MySQL/MongoDB", icon: <SiMysql />, color: "text-blue-500" },
     ],
   },
 ];
@@ -60,11 +64,17 @@ export default function Skills() {
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white"
           >
-            Technical <span className="text-blue-600">Expertise</span>
+            Technical <span className="text-blue-500">Expertise</span>
           </motion.h2>
-          <div className="h-1.5 w-16 bg-blue-600 mx-auto mt-4 rounded-full" />
+          <motion.div 
+            initial={{ width: 0 }}
+            whileInView={{ width: "80px" }}
+            viewport={{ once: true }}
+            className="h-1.5 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto mt-4 rounded-full" 
+          />
         </div>
 
         {/* Skill Bento Grid */}
@@ -76,26 +86,26 @@ export default function Skills() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="p-8 rounded-[2.5rem] bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-slate-800 hover:border-blue-500/30 transition-all duration-300 group"
+              className="p-8 rounded-[2.5rem] bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-slate-800 hover:border-blue-500/30 transition-all duration-300 group shadow-sm hover:shadow-xl dark:shadow-blue-900/10"
             >
-              <div className="mb-6">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">
+              <div className="mb-8">
+                <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2 group-hover:text-blue-500 transition-colors">
                   {group.title}
                 </h3>
-                <p className="text-slate-500 dark:text-slate-400 text-sm">
+                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
                   {group.description}
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3">
                 {group.skills.map((skill, i) => (
                   <motion.div
                     key={i}
                     whileHover={{ scale: 1.05, y: -2 }}
-                    className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all"
+                    className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm hover:border-blue-500/50 transition-all"
                   >
                     <span className={`text-2xl ${skill.color}`}>{skill.icon}</span>
-                    <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
                       {skill.name}
                     </span>
                   </motion.div>
