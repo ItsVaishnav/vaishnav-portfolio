@@ -1,54 +1,59 @@
-import { FaLinkedin, FaGithub, FaTwitter, FaMapMarkerAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { FiArrowUpRight, FiMail } from "react-icons/fi";
 
-export default function Footer() {
+export default function CallToAction() {
   return (
-    <footer className="bg-slate-50 dark:bg-[#080808] border-t border-slate-100 dark:border-slate-900 pt-16 pb-8 transition-colors duration-500">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
+    <section className="py-32 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="p-16 md:p-24 glass dark:bg-slate-900/60 border-2 border-slate-200/50 dark:border-slate-800/50 rounded-[4rem] flex flex-col items-center text-center relative overflow-hidden shadow-2xl"
+        >
+          {/* Decorative Glow */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[300px] bg-blue-600/10 blur-[100px] pointer-events-none" />
           
-          {/* Brand/Location */}
-          <div className="space-y-4">
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter">
-              VAISHNAV<span className="text-blue-600">.</span>
-            </h2>
-            <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm font-medium">
-              <FaMapMarkerAlt className="text-blue-600" />
-              <span>Pune, Maharashtra, India</span>
-            </div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="px-6 py-2 mb-10 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-black uppercase tracking-[0.4em]"
+          >
+            Partnership
+          </motion.div>
 
-          {/* Social Links */}
-          <div className="flex gap-4">
-            {[
-              { icon: <FaLinkedin />, link: "https://linkedin.com/in/yourprofile" },
-              { icon: <FaGithub />, link: "https://github.com/ItsVaishnav" },
-              { icon: <FaTwitter />, link: "#" }
-            ].map((social, i) => (
-              <a 
-                key={i} 
-                href={social.link} 
-                target="_blank" 
-                rel="noreferrer"
-                className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-600 hover:text-white transition-all shadow-sm"
-              >
-                {social.icon}
-              </a>
-            ))}
-          </div>
-        </div>
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-8xl font-black text-slate-900 dark:text-white tracking-tighter mb-10 leading-[0.9]"
+          >
+            Ready to <span className="text-gradient">Build</span> <br /> Something <span className="italic">Great?</span>
+          </motion.h2>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-slate-400 dark:text-slate-500 text-xs font-bold uppercase tracking-widest">
-            © 2026 Vaishnav. Built with Passion.
+          <p className="text-slate-500 dark:text-slate-400 text-lg md:text-2xl font-medium max-w-2xl mb-16 leading-relaxed">
+            I'm currently available for internships and full-stack collaborations. 
+            Let's turn your ideas into high-performance digital reality.
           </p>
-          <div className="flex gap-8 text-[11px] font-black text-slate-400 uppercase tracking-tighter">
-            <a href="#about" className="hover:text-blue-600 transition-colors">About</a>
-            <a href="#experience" className="hover:text-blue-600 transition-colors">Experience</a>
-            <a href="#projects" className="hover:text-blue-600 transition-colors">Projects</a>
+
+          <div className="flex flex-col sm:flex-row gap-6">
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-10 py-5 bg-blue-600 text-white font-black rounded-3xl flex items-center gap-3 shadow-xl shadow-blue-500/20 active:shadow-none"
+            >
+              Start a Project <FiArrowUpRight size={20} />
+            </motion.a>
+            <motion.a
+              href="mailto:vaishnavghadge99@gmail.com"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-10 py-5 glass border-2 border-slate-200/50 dark:border-slate-800/50 text-slate-900 dark:text-white font-black rounded-3xl flex items-center gap-3"
+            >
+              Email Me <FiMail size={20} />
+            </motion.a>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </footer>
+    </section>
   );
-}
+}

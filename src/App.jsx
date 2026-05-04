@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -10,10 +10,12 @@ import Footer from "./components/Footer";
 import ResumeTimeline from "./components/ResumeTimeline";
 import CallToAction from "./components/CallToAction";
 import GitHubRepos from "./components/GitHubRepos";
-import { motion, useScroll, useSpring } from "framer-motion";
+import CustomCursor from "./components/CustomCursor";
+import MeshBackground from "./components/MeshBackground";
+import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 
 export default function App() {
-  // Reading scroll progress for the top bar
+  const [isLoading, setIsLoading] = useState(true);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -21,23 +23,48 @@ export default function App() {
     restDelta: 0.001
   });
 
-  // Optional: Force scroll to top on refresh
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Simulate loading
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="relative bg-white text-slate-900 dark:bg-[#050505] dark:text-white transition-colors duration-500 font-sans antialiased">
+    <div className="relative selection:bg-blue-500/30 font-sans antialiased text-slate-900 dark:text-white transition-colors duration-500">
       
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-white dark:bg-[#050505]"
+          >
+            <motion.div
+              initial={{ scale: 1, opacity: 0.5 }}
+              animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="text-4xl font-black text-blue-600"
+            >
+              V.G.
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <CustomCursor />
+      <MeshBackground />
+
       {/* Professional Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-blue-600 origin-left z-[100]"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-cyan-400 origin-left z-[100]"
         style={{ scaleX }}
       />
 
       <Navbar />
       
-      <main>
+      <main className="relative z-10">
         <Hero />
         <About />
         <ResumeTimeline />
@@ -50,12 +77,6 @@ export default function App() {
       </main>
 
       <Footer />
-
-      {/* Optional: Floating Background Gradient for depth */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[10%] right-[-10%] w-[30%] h-[30%] bg-indigo-600/5 blur-[100px] rounded-full" />
-      </div>
     </div>
   );
 }

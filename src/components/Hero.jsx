@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { FaGithub, FaLinkedin, FaArrowDown, FaGraduationCap, FaLeaf } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaArrowDown } from "react-icons/fa";
 import { Typewriter } from "react-simple-typewriter";
 import { useEffect, useState } from "react";
 
@@ -22,88 +22,67 @@ export default function Hero() {
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
-  const spotlight = useTransform(
-    [smoothX, smoothY],
-    ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(59, 130, 246, 0.15), transparent 80%)`
-  );
+  const rotateX = useTransform(smoothY, [0, typeof window !== 'undefined' ? window.innerHeight : 1000], [5, -5]);
+  const rotateY = useTransform(smoothX, [0, typeof window !== 'undefined' ? window.innerWidth : 1000], [-5, 5]);
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 overflow-hidden bg-white dark:bg-[#050505] transition-colors duration-500">
+    <section className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-6 pt-32 pb-20 overflow-hidden">
       
-      {/* 1. Dynamic Interactive Background */}
+      {/* Skewed Background Element */}
+      <div className="absolute top-0 left-0 w-full h-[120%] -z-10 bg-slate-50 dark:bg-transparent -skew-y-6 origin-top-left" />
+
+      {/* Main Content */}
       <motion.div 
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{ background: spotlight }}
-      />
-
-      {/* 2. Animated Mesh Gradients */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            x: [0, 100, 0] 
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-[120px]"
-        />
-        <motion.div
-          animate={{ 
-            scale: [1, 1.3, 1],
-            rotate: [0, -90, 0],
-            x: [0, -100, 0] 
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] bg-cyan-400/10 dark:bg-cyan-600/10 rounded-full blur-[120px]"
-        />
-      </div>
-
-      {/* --- Main Content --- */}
-      <div className="relative z-10 max-w-5xl mx-auto">
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10 max-w-5xl mx-auto"
+      >
         
         {/* Animated Badge */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-md text-xs font-medium text-slate-500 dark:text-slate-400"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-8 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400"
         >
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
           </span>
-          Available for new opportunities
+          Open to collaboration
         </motion.div>
 
         {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-5xl md:text-8xl font-extrabold tracking-tight text-slate-900 dark:text-white"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="text-6xl md:text-9xl font-black tracking-tighter text-slate-900 dark:text-white leading-[0.9]"
         >
-          Vaishnav <span className="text-blue-600 dark:text-blue-500">Ghadge</span>
+          Vaishnav <br /> <span className="text-gradient">Ghadge</span>
         </motion.h1>
 
-        {/* Roles with Typewriter */}
+        {/* Roles */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-6 text-xl md:text-3xl font-light text-slate-600 dark:text-slate-300 h-10"
+          transition={{ delay: 0.6 }}
+          className="mt-8 text-xl md:text-4xl font-light text-slate-600 dark:text-slate-300 min-h-[1.5em]"
         >
-          I'm a{" "}
-          <span className="font-semibold text-slate-900 dark:text-white border-b-2 border-blue-500">
+          Architecting{" "}
+          <span className="font-black text-slate-900 dark:text-white italic">
             <Typewriter
-              words={["Android Developer", "Java Backend Pro", "React Enthusiast"]}
+              words={["Full Stack Apps", "Scalable Backends", "Android Solutions"]}
               loop={0}
               cursor
-              cursorStyle="|"
-              typeSpeed={80}
+              cursorStyle="_"
+              typeSpeed={70}
               deleteSpeed={50}
-              delaySpeed={1500}
+              delaySpeed={2000}
             />
           </span>
         </motion.div>
@@ -113,13 +92,13 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="mt-8 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed"
+          className="mt-10 max-w-2xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium"
         >
-          Specializing in building robust digital ecosystems for 
-          <span className="mx-2 text-blue-600 dark:text-cyan-400 font-medium">Education</span> 
+          Building robust digital ecosystems for 
+          <span className="mx-2 text-blue-600 dark:text-blue-400">Education</span> 
           and 
-          <span className="mx-2 text-green-600 dark:text-green-400 font-medium">Agriculture</span>. 
-          Currently pursuing MCA in Pune, India.
+          <span className="mx-2 text-cyan-600 dark:text-cyan-400">Agriculture</span>. 
+          MCA Aspirant & Full-Stack Crafter.
         </motion.p>
 
         {/* Action Buttons */}
@@ -127,24 +106,25 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className="mt-12 flex flex-wrap justify-center gap-4"
+          className="mt-14 flex flex-wrap justify-center gap-6"
         >
           <motion.a
-            whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1)" }}
+            whileHover={{ scale: 1.05, y: -5 }}
             whileTap={{ scale: 0.95 }}
             href="#projects"
-            className="px-8 py-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold transition-all"
+            className="group relative px-10 py-5 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-black font-black transition-all overflow-hidden"
           >
-            View My Work
+            <span className="relative z-10">EXPLORE WORK</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
           </motion.a>
 
           <motion.a
-            whileHover={{ scale: 1.05, backgroundColor: "rgba(0,0,0,0.05)" }}
+            whileHover={{ scale: 1.05, y: -5 }}
             whileTap={{ scale: 0.95 }}
             href="/resume.pdf"
-            className="px-8 py-4 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold backdrop-blur-sm"
+            className="px-10 py-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-black hover:border-blue-500 transition-colors backdrop-blur-sm"
           >
-            Download CV
+            GET RESUME
           </motion.a>
         </motion.div>
 
@@ -153,33 +133,35 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="mt-12 flex justify-center gap-6"
+          className="mt-16 flex justify-center gap-8"
         >
           {[
-            { icon: <FaGithub />, url: "https://github.com/ItsVaishnav" },
-            { icon: <FaLinkedin />, url: "https://linkedin.com/in/vaishnav-ghadge" }
+            { icon: <FaGithub />, url: "https://github.com/ItsVaishnav", label: "GitHub" },
+            { icon: <FaLinkedin />, url: "https://linkedin.com/in/vaishnav-ghadge", label: "LinkedIn" }
           ].map((item, i) => (
             <motion.a
               key={i}
               href={item.url}
               target="_blank"
-              whileHover={{ y: -5, scale: 1.1 }}
-              className="p-3 rounded-full bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors"
+              whileHover={{ y: -5, scale: 1.2, color: "#3b82f6" }}
+              className="text-3xl text-slate-400 dark:text-slate-600 transition-all"
+              aria-label={item.label}
             >
               {item.icon}
             </motion.a>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll Down Hint */}
       <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-400"
+        animate={{ y: [0, 15, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-300 dark:text-slate-700 text-xs font-black tracking-[0.2em] flex flex-col items-center gap-4"
       >
+        <span className="inline-block [writing-mode:vertical-lr]">SCROLL</span>
         <FaArrowDown />
       </motion.div>
     </section>
   );
-}
+}

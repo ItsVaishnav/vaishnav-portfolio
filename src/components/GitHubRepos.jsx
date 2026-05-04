@@ -4,7 +4,6 @@ import { FaGithub, FaArrowLeft, FaArrowRight, FaStar, FaCodeBranch } from "react
 
 const ITEMS_PER_PAGE = 6;
 
-// Helper to get color for languages
 const getLanguageColor = (lang) => {
   const colors = {
     Java: "bg-red-500",
@@ -45,37 +44,42 @@ export default function GitHubRepos() {
   );
 
   return (
-    <section id="repos" className="py-24 bg-white dark:bg-[#050505] transition-colors duration-500">
+    <section id="repos" className="py-32 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-6">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-24 gap-8">
           <div className="text-center md:text-left">
-            <motion.h2 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className="text-4xl font-black text-slate-900 dark:text-white"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-[0.3em]"
             >
-              Open Source <span className="text-blue-600">Library</span>
+              Open Source
+            </motion.div>
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter"
+            >
+              Live <span className="text-gradient">Library</span>
             </motion.h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-2">Live synchronization with my GitHub profile</p>
           </div>
           
-          <div className="flex items-center gap-3 px-4 py-2 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-             <span className="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">
+          <div className="flex items-center gap-4 px-6 py-3 glass rounded-2xl border-2 border-slate-200/50 dark:border-slate-800/50 shadow-xl">
+             <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+             <span className="text-sm font-black text-slate-600 dark:text-slate-300 uppercase tracking-widest">
                {repos.length} Repositories
              </span>
           </div>
         </div>
 
         {/* Repo Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[400px]">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[400px]">
           <AnimatePresence mode="wait">
             {loading ? (
-              // Simple Skeleton Loader
               [...Array(6)].map((_, i) => (
-                <div key={i} className="h-48 bg-slate-100 dark:bg-slate-900 animate-pulse rounded-[2rem]" />
+                <div key={i} className="h-64 glass animate-pulse rounded-[2.5rem]" />
               ))
             ) : (
               currentRepos.map((repo) => (
@@ -85,40 +89,42 @@ export default function GitHubRepos() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  whileHover={{ y: -8 }}
-                  className="group relative flex flex-col p-7 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-slate-800 rounded-[2rem] hover:border-blue-500/40 transition-all shadow-sm hover:shadow-xl hover:shadow-blue-500/5"
+                  whileHover={{ y: -10 }}
+                  className="group relative flex flex-col p-8 glass dark:bg-slate-900/40 border-2 border-slate-200/50 dark:border-slate-800/50 rounded-[2.5rem] hover:border-blue-500/50 transition-all duration-500 shadow-xl overflow-hidden"
                 >
-                  <div className="flex justify-between items-start mb-4">
-                    <div className={`w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-blue-600`}>
-                      <FaGithub size={20} />
+                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-600/5 rounded-full blur-3xl group-hover:bg-blue-600/10 transition-all" />
+                  
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-2xl glass border border-slate-200/50 dark:border-slate-800/50 text-blue-600 shadow-inner">
+                      <FaGithub size={24} />
                     </div>
-                    <div className="flex gap-3 text-slate-400 text-xs font-bold">
-                      <span className="flex items-center gap-1"><FaStar size={12}/> {repo.stargazers_count}</span>
-                      <span className="flex items-center gap-1"><FaCodeBranch size={12}/> {repo.forks_count}</span>
+                    <div className="flex gap-4 text-slate-500 font-black text-[10px] uppercase tracking-widest">
+                      <span className="flex items-center gap-1.5"><FaStar size={14} className="text-yellow-500"/> {repo.stargazers_count}</span>
+                      <span className="flex items-center gap-1.5"><FaCodeBranch size={14} className="text-blue-500"/> {repo.forks_count}</span>
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 truncate group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white mb-3 truncate group-hover:text-gradient transition-all">
                     {repo.name.replace(/-/g, ' ')}
                   </h3>
 
-                  <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-6 flex-1">
-                    {repo.description || "Experimental project focusing on clean architecture and performance."}
+                  <p className="text-slate-500 dark:text-slate-400 font-medium text-sm leading-relaxed line-clamp-2 mb-8 flex-1">
+                    {repo.description || "Experimental project focusing on logic, scalability and clean architecture."}
                   </p>
 
-                  <div className="flex items-center justify-between pt-5 border-t border-slate-200 dark:border-slate-800">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full ${getLanguageColor(repo.language)}`} />
-                      <span className="text-xs font-bold text-slate-600 dark:text-slate-400">{repo.language || "Engine"}</span>
+                  <div className="flex items-center justify-between pt-6 border-t-2 border-slate-100 dark:border-slate-800/50">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-2.5 h-2.5 rounded-full ${getLanguageColor(repo.language)} shadow-sm`} />
+                      <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">{repo.language || "Engine"}</span>
                     </div>
 
                     <a
                       href={repo.html_url}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-xs font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 hover:underline"
+                      className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400 hover:text-blue-700 transition-colors"
                     >
-                      Explore
+                      View Source
                     </a>
                   </div>
                 </motion.div>
@@ -127,39 +133,42 @@ export default function GitHubRepos() {
           </AnimatePresence>
         </div>
 
-        {/* Professional Pagination */}
+        {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8 mt-20">
-            <button
+          <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-24">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              className="group flex items-center gap-3 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full font-bold text-sm disabled:opacity-20 transition-all hover:gap-5"
+              className="group flex items-center gap-4 px-8 py-4 glass dark:bg-slate-900 border-2 border-slate-200/50 dark:border-slate-800/50 text-slate-900 dark:text-white rounded-full font-black text-xs uppercase tracking-widest disabled:opacity-20 transition-all hover:border-blue-500/50 shadow-2xl"
             >
-              <FaArrowLeft /> Previous
-            </button>
+              <FaArrowLeft /> Back
+            </motion.button>
 
-            <div className="flex gap-2">
+            <div className="flex gap-3">
                {[...Array(totalPages)].map((_, i) => (
-                 <button 
+                 <motion.button 
                   key={i}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setCurrentPage(i + 1)}
-                  className={`w-10 h-10 rounded-xl font-bold text-xs transition-all ${currentPage === i + 1 ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' : 'bg-slate-100 dark:bg-slate-900 text-slate-400'}`}
+                  className={`w-12 h-12 rounded-2xl font-black text-xs transition-all border-2 ${currentPage === i + 1 ? 'bg-blue-600 border-blue-600 text-white shadow-xl shadow-blue-500/30' : 'glass border-slate-200/50 dark:border-slate-800/50 text-slate-400'}`}
                  >
                    {i + 1}
-                 </button>
+                 </motion.button>
                ))}
             </div>
 
-            <button
+            <motion.button
+              whileTap={{ scale: 0.95 }}
               onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="group flex items-center gap-3 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full font-bold text-sm disabled:opacity-20 transition-all hover:gap-5"
+              className="group flex items-center gap-4 px-8 py-4 glass dark:bg-slate-900 border-2 border-slate-200/50 dark:border-slate-800/50 text-slate-900 dark:text-white rounded-full font-black text-xs uppercase tracking-widest disabled:opacity-20 transition-all hover:border-blue-500/50 shadow-2xl"
             >
               Next <FaArrowRight />
-            </button>
+            </motion.button>
           </div>
         )}
       </div>
     </section>
   );
-}
+}

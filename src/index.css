@@ -1,8 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Inter:wght@100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --background: #ffffff;
+    --foreground: #020617;
+  }
 
-html {
-  scroll-behavior: smooth;
+  .dark {
+    --background: #050505;
+    --foreground: #f8fafc;
+  }
+
+  * {
+    @apply border-slate-200 dark:border-slate-800;
+  }
+
+  html {
+    @apply scroll-smooth;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)] antialiased;
+  }
+}
+
+@layer utilities {
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.05;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500;
+  }
+
+  .glass {
+    @apply backdrop-blur-md bg-white/70 dark:bg-black/70 border border-white/20 dark:border-white/10;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-400/20 hover:bg-slate-400/40 rounded-full transition-colors;
 }
