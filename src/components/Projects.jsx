@@ -75,70 +75,82 @@ export default function Projects() {
         </div>
 
         {/* Project Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {featured.map((proj, i) => {
             const repo = findRepo(proj.key);
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="group relative flex flex-col h-full bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-slate-800 rounded-[2rem] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10"
+                transition={{ duration: 0.8, delay: i * 0.1, ease: "easeOut" }}
+                viewport={{ once: true }}
+                className="group relative h-full"
               >
-                {/* Decorative Top Bar */}
-                <div className={`h-2 w-full bg-gradient-to-r ${proj.color}`} />
-
-                <div className="p-8 flex flex-col flex-grow">
-                  <div className="flex justify-between items-start mb-4">
-                    <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-blue-100 dark:bg-blue-500/10 text-blue-600 rounded-lg">
-                      {proj.role}
-                    </span>
-                    {repo && <FaCodeBranch className="text-slate-300 dark:text-slate-600" />}
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">
-                    {proj.title}
-                  </h3>
-                  
-                  <p className="text-blue-500 dark:text-blue-400 font-medium text-sm mb-4">
-                    {proj.subtitle}
-                  </p>
-
-                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
-                    {proj.description}
-                  </p>
-
-                  {/* Tech Stack Chips */}
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {proj.tech.map((t, idx) => (
-                      <span key={idx} className="text-[10px] font-bold px-2 py-1 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Links Area */}
-                  <div className="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                    {repo ? (
-                      <a
-                        href={repo.html_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors"
-                      >
-                        <FaGithub /> Source
-                      </a>
-                    ) : (
-                      <span className="text-xs text-slate-400 italic font-medium tracking-tight">Private Repo</span>
-                    )}
+                {/* 3D Tilt Wrapper */}
+                <motion.div 
+                  whileHover={{ scale: 1.02, rotateX: 2, rotateY: 2 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  className="h-full flex flex-col bg-white/5 dark:bg-white/[0.03] backdrop-blur-3xl border border-white/10 dark:border-white/[0.05] rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-[0_20px_50px_rgba(59,130,246,0.1)] hover:border-blue-500/30"
+                >
+                  <div className="p-8 md:p-10 flex flex-col h-full relative overflow-hidden">
                     
-                    <button className="p-2 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-600 hover:text-white transition-all">
-                      <FaExternalLinkAlt size={12} />
-                    </button>
+                    {/* Background Glow */}
+                    <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${proj.color} opacity-10 blur-[80px] group-hover:opacity-20 transition-opacity`} />
+
+                    <div className="flex justify-between items-start mb-8">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-blue-500 dark:text-blue-400">
+                          {proj.role}
+                        </span>
+                        <h3 className="text-3xl font-black text-slate-900 dark:text-white leading-tight">
+                          {proj.title}
+                        </h3>
+                      </div>
+                      {repo && <FaGithub className="text-2xl text-slate-400 dark:text-slate-600 group-hover:text-blue-500 transition-colors" />}
+                    </div>
+                    
+                    <p className="text-slate-600 dark:text-slate-400 text-base leading-relaxed mb-8 flex-grow">
+                      {proj.description}
+                    </p>
+
+                    {/* Tech Stack - Premium Treatment */}
+                    <div className="flex flex-wrap gap-2 mb-10">
+                      {proj.tech.map((t, idx) => (
+                        <span key={idx} className="text-[10px] font-bold px-3 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Action Area */}
+                    <div className="mt-auto pt-8 border-t border-slate-100 dark:border-white/5 flex items-center justify-between">
+                      {repo ? (
+                        <a
+                          href={repo.html_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="group/link flex items-center gap-3 text-sm font-bold text-slate-900 dark:text-white"
+                        >
+                          <span className="relative overflow-hidden h-5">
+                            <span className="block group-hover/link:-translate-y-full transition-transform duration-300">View Source</span>
+                            <span className="absolute top-full left-0 block group-hover/link:-translate-y-full transition-transform duration-300 text-blue-500">GitHub Repo</span>
+                          </span>
+                        </a>
+                      ) : (
+                        <span className="text-xs text-slate-400 italic font-medium tracking-tight">Enterprise Level</span>
+                      )}
+                      
+                      <motion.button 
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-xl"
+                      >
+                        <FaExternalLinkAlt size={14} />
+                      </motion.button>
+                    </div>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             );
           })}

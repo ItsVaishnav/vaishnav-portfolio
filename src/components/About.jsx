@@ -123,52 +123,50 @@ export default function About() {
               </span>
               , I lead the development of ambitious projects like **CampusOS**,
               while simultaneously pursuing my MCA in Pune. I specialize in 
-              Java and Android development, building scalable solutions for 
-              the education and agri-tech sectors.
             </motion.p>
-
-            {/* Quick Stats Grid - Glassmorphism Style */}
-            <motion.div variants={itemVariants} className="grid grid-cols-2 gap-5 pt-4">
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ y: -5 }}
-                  className="p-5 rounded-2xl bg-white/50 dark:bg-slate-900/30 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-sm transition-all"
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="p-3 rounded-xl bg-blue-500/10 text-blue-500 text-2xl">{stat.icon}</span>
-                    <div>
-                      <h4 className="text-2xl font-black text-slate-900 dark:text-white">
-                        {stat.value}
-                      </h4>
-                      <p className="text-xs text-slate-500 dark:text-slate-500 uppercase tracking-wider mt-0.5">
-                        {stat.label}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
           </motion.div>
         </div>
 
+        {/* Quick Stats Grid - Glassmorphism Style */}
+        <motion.div variants={itemVariants} className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -10, backgroundColor: "rgba(59, 130, 246, 0.05)" }}
+              className="p-8 rounded-[2.5rem] bg-white/5 dark:bg-white/[0.02] backdrop-blur-3xl border border-white/10 dark:border-white/[0.05] shadow-xl transition-all group/stat"
+            >
+              <div className="flex flex-col items-center text-center gap-4">
+                <span className="p-4 rounded-2xl bg-blue-500/10 text-blue-500 text-3xl group-hover/stat:scale-110 transition-transform">{stat.icon}</span>
+                <div>
+                  <h4 className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">
+                    {stat.value}
+                  </h4>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-500 uppercase font-black tracking-[0.2em] mt-2">
+                    {stat.label}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
         {/* "Why Me" Bento Grid - Re-styled for consistency */}
-        <div className="mt-28 grid md:grid-cols-3 gap-6">
+        <div className="mt-32 grid md:grid-cols-3 gap-8">
           <Card
             emoji="🌱"
             title="Problem Thinker"
-            desc="I don't just write code; I design solutions by understanding the 'Why' behind every feature."
+            desc="I don't just write code; I design scalable solutions by deep-diving into the 'Why' behind every architecture."
           />
           <Card
             emoji="⚙️"
-            title="Robust Backend"
-            desc="Deep focus on Java and DB architecture ensuring your apps are fast, secure, and scalable."
+            title="Engineering Excellence"
+            desc="Deep expertise in Java Full-Stack and Android Ecosystems, ensuring apps are fast, secure, and production-ready."
             active
           />
           <Card
             emoji="🚀"
-            title="Agile Learner"
-            desc="In the fast-moving tech world, my greatest skill is the ability to master new tools in weeks, not months."
+            title="Visionary Leader"
+            desc="As a Founder, I combine technical mastery with strategic product vision to build the future of EdTech."
           />
         </div>
       </div>

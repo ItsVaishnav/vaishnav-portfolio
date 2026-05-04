@@ -80,67 +80,81 @@ export default function Experience() {
             />
           </div>
 
-          <div className="space-y-12">
+          <div className="space-y-24">
             {experiences.map((exp, index) => (
               <motion.div 
                 key={index}
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="relative pl-12"
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="relative pl-16 md:pl-24"
               >
-                <div className="absolute left-[7px] top-7 w-5 h-5 bg-white dark:bg-black border-[4px] border-blue-600 rounded-full z-10" />
+                {/* Glowing Node */}
+                <div className="absolute left-[3px] top-8 flex items-center justify-center z-10">
+                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.6)]">
+                    <div className="w-3 h-3 bg-white rounded-full animate-pulse" />
+                  </div>
+                </div>
+                <div className="absolute left-[-2px] top-12 w-10 h-[2px] bg-slate-200 dark:bg-slate-800" />
 
-                <div className="p-8 md:p-10 rounded-[2.5rem] bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-slate-800 hover:border-blue-500/40 transition-all duration-500 group">
+                <div className="p-8 md:p-12 rounded-[3rem] bg-white/5 dark:bg-white/[0.02] backdrop-blur-3xl border border-white/10 dark:border-white/[0.05] hover:border-blue-500/30 transition-all duration-500 group shadow-2xl">
                   
                   {/* Card Header */}
-                  <div className="flex flex-col gap-3 mb-8">
-                    <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-xs uppercase tracking-[0.2em]">
-                      <Calendar size={14} /> {exp.duration}
+                  <div className="flex flex-col gap-4 mb-10">
+                    <div className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-black text-xs uppercase tracking-[0.25em]">
+                      <Calendar size={14} className="animate-pulse" /> {exp.duration}
                     </div>
                     
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">
+                    <h3 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter group-hover:text-blue-500 transition-colors">
                       {exp.company}
                     </h3>
 
-                    <div className="flex flex-wrap gap-5 text-sm text-slate-500 dark:text-slate-400 font-semibold">
-                      <span className="flex items-center gap-2">
-                        <Briefcase size={16} className="text-blue-500" /> {exp.role}
+                    <div className="flex flex-wrap gap-6 text-base text-slate-500 dark:text-slate-400 font-bold">
+                      <span className="flex items-center gap-2.5">
+                        <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-500">
+                          <Briefcase size={18} />
+                        </div>
+                        {exp.role}
                       </span>
-                      <span className="flex items-center gap-2">
-                        <MapPin size={16} className="text-cyan-500" /> {exp.location}
+                      <span className="flex items-center gap-2.5">
+                        <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-500">
+                          <MapPin size={18} />
+                        </div>
+                        {exp.location}
                       </span>
                     </div>
                   </div>
 
-                  {/* Dual Stack Highlights */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
-                      <Server className="text-blue-500" size={20} />
-                      <span className="text-xs font-bold uppercase dark:text-slate-300">Backend: Spring Boot</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
-                      <Smartphone className="text-cyan-500" size={20} />
-                      <span className="text-xs font-bold uppercase dark:text-slate-300">Mobile: React Native</span>
-                    </div>
+                  {/* Highlights Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
+                    {exp.skills.slice(0, 2).map((skill, i) => (
+                      <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-slate-50/50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/5">
+                        {i === 0 ? <Server className="text-blue-500" size={24} /> : <Smartphone className="text-cyan-500" size={24} />}
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Focus Area</span>
+                          <span className="text-sm font-bold text-slate-900 dark:text-slate-200">{skill} Architecture</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
 
                   {/* Description List */}
-                  <ul className="space-y-4 mb-10">
+                  <ul className="space-y-5 mb-12">
                     {exp.description.map((point, i) => (
-                      <li key={i} className="flex gap-4 text-slate-600 dark:text-slate-400 text-base leading-relaxed">
-                        <CheckCircle2 size={20} className="text-blue-500 shrink-0 mt-1" />
-                        {point}
+                      <li key={i} className="flex gap-5 text-slate-600 dark:text-slate-400 text-lg leading-relaxed group/item">
+                        <CheckCircle2 size={24} className="text-blue-500 shrink-0 mt-1 opacity-60 group-hover/item:opacity-100 transition-opacity" />
+                        <span className="group-hover/item:text-slate-900 dark:group-hover/item:text-white transition-colors">{point}</span>
                       </li>
                     ))}
                   </ul>
 
-                  {/* Skills Chips */}
-                  <div className="flex flex-wrap gap-2.5 pt-8 border-t border-slate-200 dark:border-slate-800">
+                  {/* Detailed Skills Chips */}
+                  <div className="flex flex-wrap gap-3 pt-10 border-t border-slate-100 dark:border-white/5">
                     {exp.skills.map((skill, i) => (
                       <span 
                         key={i} 
-                        className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-black text-slate-700 dark:text-slate-200 uppercase tracking-widest"
+                        className="px-5 py-2.5 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-[11px] font-black text-slate-700 dark:text-slate-300 uppercase tracking-widest hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all cursor-default"
                       >
                         {skill}
                       </span>

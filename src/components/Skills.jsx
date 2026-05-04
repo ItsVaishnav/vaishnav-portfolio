@@ -78,34 +78,36 @@ export default function Skills() {
         </div>
 
         {/* Skill Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
           {skillGroups.map((group, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              transition={{ duration: 0.8, delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="p-8 rounded-[2.5rem] bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-slate-800 hover:border-blue-500/30 transition-all duration-300 group shadow-sm hover:shadow-xl dark:shadow-blue-900/10"
+              className={`p-8 md:p-10 rounded-[3rem] bg-white/5 dark:bg-white/[0.02] backdrop-blur-3xl border border-white/10 dark:border-white/[0.05] hover:border-blue-500/30 transition-all duration-500 group shadow-2xl ${
+                idx === 0 || idx === 3 ? "md:col-span-3" : "md:col-span-3"
+              }`}
             >
-              <div className="mb-8">
-                <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2 group-hover:text-blue-500 transition-colors">
+              <div className="mb-10">
+                <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-3 group-hover:text-blue-500 transition-colors tracking-tighter">
                   {group.title}
                 </h3>
-                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
+                <p className="text-slate-500 dark:text-slate-400 text-base font-medium leading-relaxed">
                   {group.description}
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-4">
                 {group.skills.map((skill, i) => (
                   <motion.div
                     key={i}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm hover:border-blue-500/50 transition-all"
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    className="flex items-center gap-4 px-6 py-4 rounded-[1.5rem] bg-white dark:bg-white/[0.03] border border-slate-100 dark:border-white/10 shadow-sm hover:shadow-xl transition-all"
                   >
-                    <span className={`text-2xl ${skill.color}`}>{skill.icon}</span>
-                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                    <span className={`text-3xl ${skill.color} filter drop-shadow-sm`}>{skill.icon}</span>
+                    <span className="text-sm font-black text-slate-900 dark:text-slate-100 uppercase tracking-wider">
                       {skill.name}
                     </span>
                   </motion.div>

@@ -11,6 +11,9 @@ export default function Navbar() {
   const [dark, setDark] = useState(localStorage.getItem("theme") === "dark");
   const [progress, setProgress] = useState(0);
 
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
   useEffect(() => {
     const root = document.documentElement;
     if (dark) {
@@ -24,11 +27,21 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress((window.scrollY / total) * 100);
+      const currentScrollY = window.scrollY;
+      
+      // Smart Hide/Show Logic
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
 
-      const scrollPos = window.scrollY + 150;
+      setIsScrolled(currentScrollY > 20);
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress((currentScrollY / total) * 100);
+
+      const scrollPos = currentScrollY + 150;
       for (let id of sections) {
         const el = document.getElementById(id);
         if (el && scrollPos >= el.offsetTop && scrollPos < el.offsetTop + el.offsetHeight) {
@@ -39,23 +52,24 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   return (
     <>
       {/* Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-blue-500 to-cyan-400 z-[70]"
+        className="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-500 z-[100] shadow-[0_0_10px_rgba(59,130,246,0.5)]"
         style={{ width: `${progress}%` }}
       />
 
       <motion.nav
         initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        animate={{ y: isVisible ? 0 : -100 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className={`fixed top-0 w-full z-[60] transition-all duration-500 ${
           isScrolled 
-            ? "py-2 bg-white/70 dark:bg-black/70 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800" 
-            : "py-4 bg-transparent"
+            ? "py-3 bg-white/60 dark:bg-black/40 backdrop-blur-2xl border-b border-white/10 dark:border-white/5" 
+            : "py-6 bg-transparent"
         }`}
       >
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">

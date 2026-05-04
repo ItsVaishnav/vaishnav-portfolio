@@ -73,7 +73,7 @@ export default function Hero() {
         style={{ background: spotlight }}
       />
 
-      {/* 2. Animated Mesh Gradients */}
+      {/* 2. Animated Mesh Gradients & Floating Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{ 
@@ -82,7 +82,7 @@ export default function Hero() {
             x: [0, 100, 0] 
           }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-[120px]"
+          className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen"
         />
         <motion.div
           animate={{ 
@@ -91,8 +91,12 @@ export default function Hero() {
             x: [0, -100, 0] 
           }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] bg-cyan-400/10 dark:bg-cyan-600/10 rounded-full blur-[120px]"
+          className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] bg-indigo-400/10 dark:bg-indigo-600/10 rounded-full blur-[120px] mix-blend-screen"
         />
+
+        {/* Decorative Floating Circles */}
+        <div className="absolute top-1/4 left-10 w-24 h-24 border border-blue-500/20 rounded-full animate-float" style={{ animationDelay: '0s' }} />
+        <div className="absolute bottom-1/4 right-20 w-32 h-32 border border-indigo-500/20 rounded-full animate-float" style={{ animationDelay: '2s' }} />
       </div>
 
       {/* --- Main Content --- */}
@@ -100,27 +104,50 @@ export default function Hero() {
         
         {/* Animated Badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-md text-xs font-medium text-slate-500 dark:text-slate-400"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-8 inline-flex items-center gap-3 px-4 py-2 rounded-full border border-blue-500/20 bg-blue-500/5 backdrop-blur-md text-xs font-bold text-blue-600 dark:text-blue-400 tracking-wider uppercase"
         >
-          <span className="relative flex h-2 w-2">
+          <span className="relative flex h-2.5 w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
           </span>
           CEO & Co-Founder @ SARVO Tech
         </motion.div>
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-5xl md:text-8xl font-extrabold tracking-tight text-slate-900 dark:text-white"
+        {/* Headline with Staggered Entrance */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.1 }
+            }
+          }}
+          className="flex flex-col items-center"
         >
-          Vaishnav <span className="text-blue-600 dark:text-blue-500">Ghadge</span>
-        </motion.h1>
+          <motion.h1
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0 }
+            }}
+            className="text-6xl md:text-[9rem] font-black tracking-tighter leading-[0.9] text-slate-900 dark:text-white"
+          >
+            Vaishnav
+          </motion.h1>
+          <motion.h1
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0 }
+            }}
+            className="text-6xl md:text-[9rem] font-black tracking-tighter leading-[0.9] text-gradient mt-2"
+          >
+            Ghadge
+          </motion.h1>
+        </motion.div>
 
         {/* Roles with Typewriter */}
         <motion.div
