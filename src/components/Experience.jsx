@@ -17,6 +17,19 @@ export default function Experience() {
 
   const experiences = [
     {
+      company: "SARVO Tech",
+      role: "CEO & Co-Founder",
+      location: "Pune, India",
+      duration: "Apr 2024 — Present",
+      description: [
+        "Leading the vision and strategic direction of SARVO Tech, focusing on innovative software solutions.",
+        "Overseeing the development of 'CampusOS', an integrated campus management ecosystem.",
+        "Managing cross-functional teams to deliver high-quality, scalable digital products.",
+        "Defining product roadmaps and establishing key partnerships within the education and tech industries."
+      ],
+      skills: ["Leadership", "Strategic Planning", "Product Management", "Software Architecture", "Team Building"]
+    },
+    {
       company: "SPW Healthcare Innovations Pvt. Ltd.",
       role: "Software Developer",
       location: "Pune, India",

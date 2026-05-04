@@ -4,6 +4,15 @@ import { FaGithub, FaExternalLinkAlt, FaCodeBranch } from "react-icons/fa";
 
 const featured = [
   {
+    key: "campusos",
+    title: "CampusOS",
+    subtitle: "SARVO Tech Flagship",
+    description: "A comprehensive digital operating system for educational institutions, integrating administration, learning management, and student services into one seamless platform.",
+    tech: ["Spring Boot", "React", "React Native", "PostgreSQL"],
+    role: "CEO & Lead Architect",
+    color: "from-blue-600 to-indigo-600"
+  },
+  {
     key: "time",
     title: "Time Table Scheduler",
     subtitle: "Logic-Driven Scheduling",

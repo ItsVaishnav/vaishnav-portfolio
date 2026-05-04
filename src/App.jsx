@@ -10,6 +10,8 @@ import Footer from "./components/Footer";
 import ResumeTimeline from "./components/ResumeTimeline";
 import CallToAction from "./components/CallToAction";
 import GitHubRepos from "./components/GitHubRepos";
+import CustomCursor from "./components/CustomCursor";
+import InteractiveBackground from "./components/InteractiveBackground";
 import { motion, useScroll, useSpring } from "framer-motion";
 
 export default function App() {
@@ -36,6 +38,7 @@ export default function App() {
       />
 
       <Navbar />
+      <CustomCursor />
       
       <main>
         <Hero />
@@ -51,11 +54,7 @@ export default function App() {
 
       <Footer />
 
-      {/* Optional: Floating Background Gradient for depth */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[10%] right-[-10%] w-[30%] h-[30%] bg-indigo-600/5 blur-[100px] rounded-full" />
-      </div>
+      <InteractiveBackground />
     </div>
   );
 }

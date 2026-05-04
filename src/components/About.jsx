@@ -112,16 +112,19 @@ export default function About() {
               </span>
               , I’ve seen firsthand how the right tools can change lives. My
               mission is to bridge the gap between complex technology and
-              real-world utility.
+              real-world utility. This passion led me to co-found{" "}
+              <span className="text-blue-500 font-bold">SARVO Tech</span>.
             </motion.p>
 
             <motion.p variants={itemVariants} className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
-              As an{" "}
+              As the{" "}
               <span className="text-blue-500 font-semibold">
-                MCA student in Pune
+                CEO & Co-Founder
               </span>
-              , I specialize in Java and Android development, focusing on
-              scalable solutions for the education and agri-tech sectors.
+              , I lead the development of ambitious projects like **CampusOS**,
+              while simultaneously pursuing my MCA in Pune. I specialize in 
+              Java and Android development, building scalable solutions for 
+              the education and agri-tech sectors.
             </motion.p>
 
             {/* Quick Stats Grid - Glassmorphism Style */}

@@ -22,7 +22,42 @@ export default function Hero() {
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY]);
+
+  // Magnetic Button Logic
+  const MagneticButton = ({ children, href, className, primary = false }) => {
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const springX = useSpring(x, { stiffness: 150, damping: 15 });
+    const springY = useSpring(y, { stiffness: 150, damping: 15 });
+
+    const handleMouse = (e) => {
+      const { clientX, clientY, currentTarget } = e;
+      const { left, top, width, height } = currentTarget.getBoundingClientRect();
+      const centerX = left + width / 2;
+      const centerY = top + height / 2;
+      x.set(clientX - centerX);
+      y.set(clientY - centerY);
+    };
+
+    const reset = () => {
+      x.set(0);
+      y.set(0);
+    };
+
+    return (
+      <motion.a
+        href={href}
+        onMouseMove={handleMouse}
+        onMouseLeave={reset}
+        style={{ x: springX, y: springY }}
+        whileTap={{ scale: 0.95 }}
+        className={className}
+      >
+        {children}
+      </motion.a>
+    );
+  };
 
   const spotlight = useTransform(
     [smoothX, smoothY],
@@ -71,10 +106,10 @@ export default function Hero() {
           className="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-md text-xs font-medium text-slate-500 dark:text-slate-400"
         >
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
           </span>
-          Available for new opportunities
+          CEO & Co-Founder @ SARVO Tech
         </motion.div>
 
         {/* Headline */}
@@ -97,7 +132,7 @@ export default function Hero() {
           I'm a{" "}
           <span className="font-semibold text-slate-900 dark:text-white border-b-2 border-blue-500">
             <Typewriter
-              words={["Android Developer", "Java Backend Pro", "React Enthusiast"]}
+              words={["CEO @ SARVO Tech", "Android Developer", "Java Backend Pro"]}
               loop={0}
               cursor
               cursorStyle="|"
@@ -129,23 +164,19 @@ export default function Hero() {
           transition={{ delay: 1 }}
           className="mt-12 flex flex-wrap justify-center gap-4"
         >
-          <motion.a
-            whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1)" }}
-            whileTap={{ scale: 0.95 }}
+          <MagneticButton
             href="#projects"
-            className="px-8 py-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold transition-all"
+            className="px-8 py-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold transition-all shadow-xl shadow-blue-500/10"
           >
             View My Work
-          </motion.a>
+          </MagneticButton>
 
-          <motion.a
-            whileHover={{ scale: 1.05, backgroundColor: "rgba(0,0,0,0.05)" }}
-            whileTap={{ scale: 0.95 }}
+          <MagneticButton
             href="/resume.pdf"
-            className="px-8 py-4 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold backdrop-blur-sm"
+            className="px-8 py-4 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold backdrop-blur-sm shadow-lg"
           >
             Download CV
-          </motion.a>
+          </MagneticButton>
         </motion.div>
 
         {/* Socials */}
